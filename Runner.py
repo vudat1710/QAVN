@@ -13,6 +13,7 @@ os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"
 os.environ["CUDA_VISIBLE_DEVICES"]="1" #so GPU 0-3
 import DataUtils
 from nltk.tokenize import word_tokenize
+# from underthesea import word_tokenize
 import json, string
 import unicodedata
 #import spacy
@@ -26,12 +27,12 @@ tf.flags.DEFINE_string("mode", "pretrained", "pretrained/tranfer")
 tf.flags.DEFINE_integer("batch_size", 64, "batch size")
 tf.flags.DEFINE_integer("epochs", 160, "epochs")
 tf.flags.DEFINE_float("learning_rate", 1e-4, "learning rate")
-tf.flags.DEFINE_float("grad_clip", 5.0, "")
+tf.flags.DEFINE_float("grad_clip", 3.0, "")
 # LSTM config
 tf.flags.DEFINE_integer("hidden_layer", 150, "")
 tf.flags.DEFINE_integer("pad_question", 50, "")
 tf.flags.DEFINE_integer("pad_sentence", 50, "")
-tf.flags.DEFINE_float("dropout", 0.2, "")
+tf.flags.DEFINE_float("dropout", 0.3, "")
 tf.flags.DEFINE_string("Ddim", "2", "")
 tf.flags.DEFINE_boolean("bidi", True, "")
 tf.flags.DEFINE_string("rnnact", "tanh", "")
@@ -135,6 +136,8 @@ def load_data_from_file(dsfile):
             stext = l.strip().split("\t")[1]
             q_tok = word_tokenize(qtext.lower())
             s_tok = word_tokenize(stext.lower())
+            # q_tok = word_tokenize(qtext.lower(), format="text").split(" ")
+            # s_tok = word_tokenize(stext.lower(), format="text").split(" ")
             #q_tok = [w.string.strip() for w in enNLP(qtext.lower())]
             #s_tok = [w.string.strip() for w in enNLP(stext.lower())]
         
